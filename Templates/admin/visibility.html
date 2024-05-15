@@ -1,0 +1,65 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block content %}
+
+	<div class="mobile-menu-overlay"></div>
+
+	<div class="main-container">
+		<div class="pd-ltr-20 xs-pd-20-10">
+			<div class="min-height-200px">
+				<div class="page-header">
+					<div class="row">
+						<div class="col-md-6 col-sm-12">
+							<div class="title">
+								<h2>Visibility Control</h2>
+							</div>
+							<nav aria-label="breadcrumb" role="navigation">
+								<ol class="breadcrumb">
+									<li class="breadcrumb-item"><a href="{% url 'home_admin' %}">Home</a></li>
+									<li class="breadcrumb-item active" aria-current="page">Control Pannel</li>
+								</ol>
+							</nav>
+						</div>
+						
+					</div>
+				</div>
+				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
+                    <div class="row">
+                        <div class="col-6 col-lg-4">
+                            <a href="{% url 'toggle_for_profile' %}" class="w-100 mt-2 btn
+                            {% if control_panel.for_portfolio_profile == 0 %}
+                            btn-outline-primary
+                            {% else %}
+                            btn-outline-danger
+                            {% endif %}">Portfolio Profile</a>
+                        </div>
+						
+                        <div class="col-6 col-lg-4 ">
+                            <a href="{% url 'toggle_for_youtube' %}" class="w-100 mt-2 btn
+                            {% if control_panel.for_youtube == 0 %}
+                            btn-outline-primary
+                            {% else %}
+                            btn-outline-danger
+                            {% endif %}">YouTube <br></a>
+                        </div>
+
+						<div class="col-6 col-lg-4 ">
+                            <a href="{% url 'toggle_for_images' %}" class="w-100 mt-2 btn
+                            {% if control_panel.for_two_detail_image == 0 %}
+                            btn-outline-primary
+                            {% else %}
+                            btn-outline-danger
+                            {% endif %}">Detail Images <br></a>
+                        </div>
+                        
+                        
+                       
+                    </div>
+				</div>
+			</div>
+			<div class="footer-wrap pd-20 mb-20 card-box">
+				Personal Portfolio By <a href="{% url 'home_admin' %}" >{{detail_instance.firstname}} {{detail_instance.lastname}}</a>
+			</div>
+		</div>
+	</div>
+	{% endblock content %}

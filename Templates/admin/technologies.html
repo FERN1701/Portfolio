@@ -1,0 +1,77 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block content %}
+
+	<div class="mobile-menu-overlay"></div>
+
+	<div class="main-container">
+		<div class="pd-ltr-20 xs-pd-20-10">
+			<div class="min-height-200px">
+				<div class="page-header">
+					<div class="row">
+						<div class="col-md-6 col-sm-12">
+							<div class="title">
+								<h2>My Technologies</h2>
+							</div>
+							<nav aria-label="breadcrumb" role="navigation">
+								<ol class="breadcrumb">
+									<li class="breadcrumb-item"><a href="{% url 'home_admin' %}">Home</a></li>
+									<li class="breadcrumb-item active" aria-current="page">Technologies</li>
+								</ol>
+							</nav>
+						</div>
+						
+					</div>
+				</div>
+				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <form method="POST" enctype="multipart/form-data" id="form">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label for="">Technology Icon</label> <br>
+                                        <a href="https://devicon.dev/">Get icon here</a>
+                                        {{form.tech_icon}}
+                                    </div>
+                                    
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="mt-3 btn btn-outline-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-6 mt-5">
+                            <!--:::::::::::::::::--->
+                           
+                            <table id="example" class="display responsive" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Icon</th>
+                                        <th>Action</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for technolo in tech %}
+                                        <tr>
+                                            <td><i class="{{technolo.tech_icon}}" style="font-size:50px;"></i> {{technolo.tech_icon | truncatechars:18}}</td>
+                                            <td>
+                                                <a href="{% url 'tech_delete' pk=technolo.id %}" class="text-danger">Delete</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    
+                                </tbody>
+                            </table>
+                            <!--:::::::::::::::::--->
+                        </div>
+                    </div>
+				</div>
+			</div>
+			<div class="footer-wrap pd-20 mb-20 card-box">
+				Personal Portfolio By <a href="{% url 'home_admin' %}" >{{detail_instance.firstname}} {{detail_instance.lastname}}</a>
+			</div>
+		</div>
+	</div>
+	{% endblock content %}

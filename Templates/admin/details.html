@@ -1,0 +1,105 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block content %}
+
+	<div class="mobile-menu-overlay"></div>
+
+	<div class="main-container">
+		<div class="pd-ltr-20 xs-pd-20-10">
+			<div class="min-height-200px">
+				<div class="page-header">
+					<div class="row">
+						<div class="col-md-6 col-sm-12">
+							<div class="title">
+								<h2>Portfolio Details</h2>
+							</div>
+							<nav aria-label="breadcrumb" role="navigation">
+								<ol class="breadcrumb">
+									<li class="breadcrumb-item"><a href="{% url 'home_admin' %}">Home</a></li>
+									<li class="breadcrumb-item"><a href="{% url 'detaila' %}">Portfolio</a></li>
+                                    <li class="breadcrumb-item"><a href="{% url 'tags' %}">Tags</a></li>
+                                    <li class="breadcrumb-item"><a href="{% url 'visibi' %}">Visibility Control</a></li>
+								</ol>
+							</nav>
+						</div>
+						
+					</div>
+				</div>
+				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h4 class="mb-3">Personal Section</h4>
+                            <form method="POST" enctype="multipart/form-data" id="form">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <Label>First Name</Label>
+                                        {{form.firstname}}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <Label>Last Name</Label>
+                                        {{form.lastname}}
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <Label>Messenger Link</Label>
+                                        {{form.messenger}}
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <Label>Youtube Link</Label>
+                                        {{form.youtube}}
+                                    </div>
+                                    
+                                    <div class="col-sm-12">
+                                        <Label>Portfolio Profile</Label>
+                                        {{form.portfolio_profile}}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <Label>Picture 1</Label>
+                                        {{form.Details_photo1}}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <Label>Picture 2</Label>
+                                        {{form.Details_photo2}}
+                                    </div>
+                                    
+                                    <div class="col-sm-6">
+                                        <Label>Curiculum Vitae</Label>
+                                        {{form.cvfile}}
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <h4 class="mb-3 mt-3">About Section</h4>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <Label>Google Map</Label>
+                                    {{form.googlemap}}
+                                </div>
+                                <div class="col-sm-6">
+                                    <Label>Years of Expirience</Label>
+                                    {{form.years}}
+                                </div>
+                                <div class="col-sm-6">
+                                    <Label>What Major Expirience</Label>
+                                    {{form.based_expirience}}
+                                </div>
+                                <div class="col-sm-12">
+                                    <Label>Description</Label>
+                                    {{form.description}}
+                                  
+                                </div>
+                                <div class="col-sm-6 mt-3">
+                                    <button type="submit" class="btn btn-outline-primary">Submit</button>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+			</div>
+			<div class="footer-wrap pd-20 mb-20 card-box">
+				Personal Portfolio By <a href="{% url 'home_admin' %}" >{{detail_instance.firstname}} {{detail_instance.lastname}}</a>
+			</div>
+		</div>
+	</div>
+	{% endblock content %}

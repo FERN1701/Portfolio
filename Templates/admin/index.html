@@ -1,0 +1,453 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block content %}
+
+	<div class="mobile-menu-overlay"></div>
+
+	<div class="main-container">
+		<div class="pd-ltr-20">
+			<div class="card-box pd-20 height-100-p mb-30">
+				<div class="row align-items-center">
+					<div class="col-md-4 d-none d-lg-block">
+						<img src="{% static 'img/logo_dark.png' %}" alt="">
+					</div>
+					<div class="col-md-8">
+						<h4 class="font-20 weight-500 mb-10 text-capitalize">
+							Personal Portfolio <div class="weight-600 font-30 text-blue">{{detail_instance.firstname}} {{detail_instance.lastname}}</div>
+						</h4>
+						<p class="font-18 max-width-600">{{detail_instance.description | truncatechars:188 | safe}}</p>
+						<p class="font-18 max-width-600">Date : {{month}} / {{current_day}} / {{current_year}}</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xl-3 mb-30">
+					<div class="card-box height-100-p widget-style1">
+						<div class="d-flex flex-wrap align-items-center">
+							<div class="progress-data">
+								<div id="chartstoday" data-count-today="{{ percentage_per_day }}"></div>
+							</div>
+							<div class="widget-data">
+								<div class="h4 mb-0">{{count_today}}</div>
+								<div class="weight-600 font-14">Today's Visitors </div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-3 mb-30">
+					<div class="card-box height-100-p widget-style1">
+						<div class="d-flex flex-wrap align-items-center">
+							<div class="progress-data">
+								<div id="chartsmonth" data-count-month="{{ percentage_month }}"></div>
+							</div>
+							<div class="widget-data">
+								<div class="h4 mb-0">{{count_month}}</div>
+								<div class="weight-600 font-14">This Month</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-3 mb-30">
+					<div class="card-box height-100-p widget-style1">
+						<div class="d-flex flex-wrap align-items-center">
+							<div class="progress-data">
+								<div id="chartsyear" data-count-year="{{ vistorsyearlypercent }}""></div>
+							</div>
+							<div class="widget-data">
+								<div class="h4 mb-0">{{total_year}}</div>
+								<div class="weight-600 font-14">This year</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-3 mb-30">
+					<div class="card-box height-100-p widget-style1">
+						<div class="d-flex flex align-items-center">
+							<div class="container">
+								<h1 class="mt-3 mr-2">{{total_visitors}}</h1>
+								<div class="weight-600 font-14">Total Visitors</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xl-12 mb-30">
+					<div class="bg-white pd-20 card-box mb-30">
+						<h4 class="h4 text-blue">Visitor's Statistic</h4>
+						<div id="chartline" ></div>
+					</div>
+				</div>
+				<div class="col-xl-12 mb-30">
+					<div class="bg-white pd-20 card-box mb-30">
+						<h4 class="h4 text-blue">Daily Visitors</h4>
+						
+						<div id="barcharts"></div>
+					</div>
+				</div>
+				
+			</div>
+			<div class="footer-wrap pd-20 mb-20 card-box">
+				Personal Portfolio By <a href="{% url 'home_admin' %}" >{{detail_instance.firstname}} {{detail_instance.lastname}}</a>
+			</div>
+		</div>
+		
+	</div>
+	
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			var countupdate = parseInt(document.getElementById('chartstoday').getAttribute('data-count-today'));
+			var monthly = parseInt(document.getElementById('chartsmonth').getAttribute('data-count-month'));
+			var year = parseInt(document.getElementById('chartsyear').getAttribute('data-count-year'));
+			
+		
+		
+			var optionsline = {
+				series: [{
+					name: 'visitors',
+					data: [{% for monthly_countss in monthly_counts %}{{monthly_countss.monthly_sum}},{% endfor %}]
+				}],
+				chart: {
+					height: 350,
+					type: 'line',
+					toolbar: {
+						show: false,
+					}
+				},
+				grid: {
+					show: false,
+					padding: {
+						left: 0,
+						right: 0
+					}
+				},
+				stroke: {
+					width: 7,
+					curve: 'smooth'
+				},
+				xaxis: {
+					categories:[{% for monthly_countss in monthly_counts %}'{{monthly_countss.countUserMonth}}',{% endfor %}],
+				},
+				title: {
+					text: 'Monthly Visitors',
+					align: 'left',
+					style: {
+						fontSize: "16px",
+						color: '#666'
+					}
+				},
+				fill: {
+					type: 'gradient',
+					gradient: {
+						shade: 'dark',
+						gradientToColors: [ '#1b00ff'],
+						shadeIntensity: 1,
+						type: 'horizontal',
+						opacityFrom: 1,
+						opacityTo: 1,
+						stops: [0, 100, 100, 100]
+					},
+				},
+				markers: {
+					size: 4,
+					colors: ["#FFA41B"],
+					strokeColors: "#fff",
+					strokeWidth: 2,
+					hover: {
+						size: 7,
+					}
+				},
+				yaxis: {
+					title: {
+						text: 'Visitors',
+					},
+				}
+			};
+	
+			var chart = new ApexCharts(document.querySelector("#chartline"), optionsline);
+			chart.render();
+
+
+
+			var barcharts_options4 = {
+				series: [{
+					data: [{% for daily_count in daily_counts %}{{daily_count.daily_sum}},{% endfor %}]
+				}],
+				chart: {
+					type: 'bar',
+					height: 430,
+					toolbar: {
+						show: false,
+					}
+				},
+				grid: {
+					show: false,
+					padding: {
+						left: 0,
+						right: 0
+					}
+				},
+				plotOptions: {
+					bar: {
+						horizontal: true,
+						dataLabels: {
+							position: 'top',
+						},
+					}
+				},
+				dataLabels: {
+					enabled: true,
+					offsetX: -6,
+					style: {
+						fontSize: '12px',
+						colors: ['#fff']
+					}
+				},
+				stroke: {
+					show: true,
+					width: 1,
+					colors: ['#fff']
+				},
+				xaxis: {
+					categories: [{% for daily_count in daily_counts %} "Day {{daily_count.countUserDay}}",{% endfor %}],
+				},
+			};
+			var barcharts = new ApexCharts(document.querySelector("#barcharts"), barcharts_options4);
+			barcharts.render();
+
+
+
+
+
+
+
+
+			var options_chartstoday = {
+				series: [countupdate],
+				grid: {
+					padding: {
+						top: 0,
+						right: 0,
+						bottom: 0,
+						left: 0
+					},
+				},
+				chart: {
+					height: 100,
+					width: 70,
+					type: 'radialBar',
+				},	
+				plotOptions: {
+					radialBar: {
+						hollow: {
+							size: '50%',
+						},
+						dataLabels: {
+							name: {
+								show: false,
+								color: '#fff'
+							},
+							value: {
+								show: true,
+								color: '#333',
+								offsetY: 5,
+								fontSize: '15px'
+							}
+						}
+					}
+				},
+				colors: ['#ecf0f4'],
+				fill: {
+					type: 'gradient',
+					gradient: {
+						shade: 'dark',
+						type: 'diagonal1',
+						shadeIntensity: 0.8,
+						gradientToColors: ['#1b00ff'],
+						inverseColors: false,
+						opacityFrom: [1, 0.2],
+						opacityTo: 1,
+						stops: [0, 100],
+					}
+				},
+				states: {
+					normal: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+					hover: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+					active: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+				}
+			};
+
+			var chartsmonth_options2 = {
+				series: [monthly],
+				grid: {
+					padding: {
+						top: 0,
+						right: 0,
+						bottom: 0,
+						left: 0
+					},
+				},
+				chart: {
+					height: 100,
+					width: 70,
+					type: 'radialBar',
+				},	
+				plotOptions: {
+					radialBar: {
+						hollow: {
+							size: '50%',
+						},
+						dataLabels: {
+							name: {
+								show: false,
+								color: '#fff'
+							},
+							value: {
+								show: true,
+								color: '#333',
+								offsetY: 5,
+								fontSize: '15px'
+							}
+						}
+					}
+				},
+				colors: ['#ecf0f4'],
+				fill: {
+					type: 'gradient',
+					gradient: {
+						shade: 'dark',
+						type: 'diagonal1',
+						shadeIntensity: 1,
+						gradientToColors: ['#1b00ff'],
+						inverseColors: false,
+						opacityFrom: [1, 0.2],
+						opacityTo: 1,
+						stops: [0, 100],
+					}
+				},
+				states: {
+					normal: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+					hover: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+					active: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+				}
+			};
+
+			var chartsyear_options3 = {
+				series: [year],
+				grid: {
+					padding: {
+						top: 0,
+						right: 0,
+						bottom: 0,
+						left: 0
+					},
+				},
+				chart: {
+					height: 100,
+					width: 70,
+					type: 'radialBar',
+				},	
+				plotOptions: {
+					radialBar: {
+						hollow: {
+							size: '50%',
+						},
+						dataLabels: {
+							name: {
+								show: false,
+								color: '#fff'
+							},
+							value: {
+								show: true,
+								color: '#333',
+								offsetY: 5,
+								fontSize: '15px'
+							}
+						}
+					}
+				},
+				colors: ['#ecf0f4'],
+				fill: {
+					type: 'gradient',
+					gradient: {
+						shade: 'dark',
+						type: 'diagonal1',
+						shadeIntensity: 0.8,
+						gradientToColors: ['#f56767'],
+						inverseColors: false,
+						opacityFrom: [1, 0.2],
+						opacityTo: 1,
+						stops: [0, 888],
+					}
+				},
+				states: {
+					normal: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+					hover: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+					active: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+				}
+			};
+
+			
+
+			
+			var chartstoday = new ApexCharts(document.querySelector("#chartstoday"), options_chartstoday);
+			chartstoday.render();
+
+			var chartsmonth = new ApexCharts(document.querySelector("#chartsmonth"), chartsmonth_options2);
+			chartsmonth.render();
+
+			var chartsyear = new ApexCharts(document.querySelector("#chartsyear"), chartsyear_options3);
+			chartsyear.render();
+
+		
+		});
+	</script>
+	
+{% endblock content %}
+	

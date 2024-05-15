@@ -1,0 +1,338 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="51">
+    
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+            <!-- Navbar Start -->
+            <nav class="navbar cards navbar-expand-lg bg-white navbar-light fixed-top shadow py-lg-0 px-4 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
+                <a href="index.html" class="navbar-brand d-block d-lg-none">
+                    <h2 class="text-primary fw-bold m-0">{{detail_instance.firstname}} {{detail_instance.lastname}}</h2>
+                </a>
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between py-4 py-lg-0" id="navbarCollapse">
+                    <div class="navbar-nav py-0 d-none d-sm-block">
+                        <a href="#home" class="nav-item nav-link active"><img src="{% static 'img/ARlogo1.png' %}" width="100px" height="30px" alt="" ></a>
+                    </div>
+                    <div class="navbar-nav  py-0">
+                        <a href="#home" class="nav-item nav-link active">Home</a>
+                        <a href="#service" class="nav-item nav-link">Services</a>
+                        <a href="{% url 'project' %}" class="nav-item nav-link">Projects</a>
+                        <a href="{% url 'gallery' %}" class="nav-item nav-link">Gallery</a>
+                        <a href="#contact" class="nav-item nav-link">Contact</a>
+                    </div>
+                </div>
+            </nav>
+            <!-- Navbar End -->
+
+
+    <!-- Header Start -->
+    <div class="container-fluid bg-light my-6 mt-0" id="home">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6 py-6 pb-0 pt-lg-0">
+                    <h3 class="text-primary mb-3">I'm</h3>
+                    <h1 class="display-3 mb-3 animated flash">{{detail_instance.firstname}} {{detail_instance.lastname}}</h1>
+                    <h2 class="typed-text-output d-inline"></h2>
+                    <div class="typed-text d-none">{% for professional in prf %}{{professional.tagname}}, {% endfor %}</div>
+                    <div class="d-flex align-items-center pt-5">
+                        <a href="{{detail_instance.cvfile.url}}" class="btn btn-primary py-3 px-4 me-5" download>Download CV</a>
+                        
+                        {% if control_panel.for_youtube == 0 %}
+                            <button type="button" class="btn-play" data-bs-toggle="modal" data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-bs-target="#videoModal">
+                                <span></span>
+                            </button>
+                            <h5 class="ms-4 mb-0 d-none d-sm-block">Play Video</h5>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    
+                    {% if control_panel.for_portfolio_profile == 0 %}
+                        <img class="img-fluid" src="{{detail_instance.portfolio_profile.url}}" alt="">
+                      {% else %}
+                        <img class="img-fluid" src="{% static 'img/hide.png' %}" alt="">
+                    {% endif %}
+                        
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+
+    <!-- Video Modal Start -->
+    <div class="modal modal-video fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content rounded-0">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="ratio ratio-16x9">
+                        <iframe width="560" height="315" src="{{detail_instance.youtube}}" title="Youtube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Video Modal End -->
+
+
+    <!-- About Start -->
+    <div class="container-xxl py-6" id="about">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="d-flex align-items-center mb-5">
+                        <div class="years flex-shrink-0 text-center me-4">
+                            <h1 class="display-1 mb-0">0{{detail_instance.years}}</h1>
+                            <h5 class="mb-0">Years</h5>
+                        </div>
+                        <h3 class="lh-base mb-0">{{detail_instance.based_expirience}}</h3>
+                    </div>
+                    <p class="mb-4">{{detail_instance.description | safe}}</p>
+                    <a class="btn btn-primary py-3 px-5 mt-3" href="#contact">Contact Me</a>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="row g-3 mb-4">
+
+                        
+                        {% if control_panel.for_two_detail_image == 0 %}
+                            <div class="col-sm-6">
+                                <img class="img-fluid rounded" src="{{detail_instance.Details_photo1.url}}" alt="">
+                            </div>
+                            <div class="col-sm-6">
+                                <img class="img-fluid rounded" src="{{detail_instance.Details_photo2.url}}" alt="">
+                            </div>
+                            {% else %}
+                            <h3 class="mt-5">My works and collaboartion</h3>
+                        {% endif %}
+                            
+                        
+
+                    </div>
+                    {% for colabs in colab %}
+                    <div class="d-flex align-items-center mb-3">
+                        <h5 class="border-end pe-3 me-3 mb-0">{{colabs.title}}</h5>
+                        <h2 class="text-primary fw-bold mb-0" data-toggle="counter-up">{{colabs.total}}</h2>
+                    </div>
+                    <p class="mb-0">{{colabs.description}}</p>
+                
+                    {% endfor %}
+                    
+                    </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+
+
+    <!-- Expertise Start -->
+    <div class="container-xxl py-6 pb-5" id="skill">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <h5 class="display-5 mb-5">My Technologies</h5>
+                    <p class="mb-4">These are the technologies that are used in my projects, where I can comfortably tackle moderate programming tasks and troubleshoot basic issues. I'm continuously honing my abilities to progress beyond the intermediate amateur stage and become a proficient in the field.</p>
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <div class="row">
+                                {% for techolo in tech %}
+                                    <div class="col-2 wow fadeInUp" data-wow-delay="0.1"><i class="{{techolo.tech_icon}}" style="font-size:50px;"></i></div>
+                                {% endfor %}
+                                
+                               </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <ul class="nav nav-pills rounded border border-2 border-primary mb-5">
+                        <li class="nav-item w-50">
+                            <button class="nav-link w-100 py-3 fs-5 active" data-bs-toggle="pill" href="#tab-1">Experience</button>
+                        </li>
+                        <li class="nav-item w-50">
+                            <button class="nav-link w-100 py-3 fs-5" data-bs-toggle="pill" href="#tab-2">Education</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane fade show p-0 active">
+                            <div class="row gy-5 gx-4">
+                                {% for experience in expe %}
+                                    <div class="col-sm-6">
+                                        <h5>{{experience.role}}</h5>
+                                        <p class="text-primary mb-1">| {{experience.date1}} - {{experience.date2}}</p>
+                                        <h6>{{experience.location}}</h6>
+                                    </div>
+                                {% endfor %}
+                                
+                                
+                                
+                            </div>
+                        </div>
+                        <div id="tab-2" class="tab-pane fade show p-0">
+                            <div class="row gy-5 gx-4">
+                                {% for education in edu %}
+                                    <div class="col-sm-6">
+                                        <h5>{{education.course}}</h5>
+                                        <p class="text-primary  mb-1">| {{education.date1}} - {{education.date2}}</p>
+                                        <h6 >{{education.location}}</h6>
+                                    </div>
+                                {% endfor %}
+                                
+                               
+                                
+                               
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Expertise End -->
+
+
+    <!-- Service Start -->
+    <div class="container-fluid bg-light my-5 py-6" id="service">
+        <div class="container">
+            <div class="row g-5 mb-5 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="col-lg-6">
+                    <h1 class="display-5 mb-0">My Services</h1>
+                </div>
+                <div class="col-lg-6 text-lg-end">
+                    <a class="btn btn-primary py-3 px-5" href="#contact">Hire Me</a>
+                </div>
+            </div>
+            <div class="row g-4">
+                
+                {% for services in ser %}
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="service-item d-flex flex-column flex-sm-row bg-white rounded h-100 p-4 p-lg-5" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;">
+                        <div class="row">
+                            <div class="col-2 bg-icon"></div>
+                            <div class="col-10">
+                                    <h4 class="mb-3">{{services.service}}</h4>
+                                    <span>{{services.description | safe}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {% endfor %}
+                
+                
+            </div>
+        </div>
+    </div>
+    <!-- Service End -->
+
+     <!-- Project Start -->
+     <div class="container-fluid my-5 py-6" id="service">
+        <div class="container">
+            <div class="row g-5 mb-5 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="col-lg-6">
+                    <h1 class="display-5 mb-0">Projects</h1>
+                </div>
+                <div class="col-lg-6 text-lg-end">
+                    <a class="btn btn-primary py-3 px-5" href="{% url 'project' %}">See All Project</a>
+                </div>
+            </div>
+            <div class="row g-4">
+                {% if pro %}
+                {% for project in pro %}
+                    <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="project-item  d-flex flex-column flex-sm-row bg-white rounded h-100 p-4 p-lg-5" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;">
+                            <div class="row">
+                                <div class="col-2 bg-project-icon"></div>
+                                <div class="col-10">
+                                    <h4 class="mb-3">{{ project.title }}</h4>
+                                    <span>{{ project.description | truncatechars:88}}</span>
+                                    <br>
+                                    <a data-bs-toggle="modal" data-bs-target="#staticBackdrop{{ forloop.counter }}" class="btn btn-outline-primary">View Project</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-dark" role="alert">
+                    The list of projects is filtered to this page. Check it <a href="{% url 'project' %}">here</a>.
+                </div>
+            {% endif %}
+            
+            </div>
+        </div>
+    </div>
+    <!-- Service End -->
+
+
+   
+    {% for detail in pro %}
+    
+    <!-- Projects Modal Start -->
+    <div class="modal fade" id="staticBackdrop{{ forloop.counter }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h3>{{detail.title}} </h3>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-sm-6">
+                    <img src="{{detail.project_banner.url}}" class="img-fluid" alt="" srcset="">
+                    <a class="btn btn-outline-primary mt-3" href="{{detail.project_banner.url}}" data-lightbox="portfolio"> Zoom image <i class="fa fa-eye"></i></a>
+                </div>
+                <div class="col-sm-6">
+                    <p>{{detail.description | safe}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</button>
+              
+              {% if detail.link == 'none' %}
+              <button type="button" class="btn btn-outline-primary">No link provided</button>
+                {% else %}
+                <a href="{{detail.link}}" target="_blank" class="btn btn-outline-danger">Visit project</a>
+              {% endif %}
+                
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Projects Modal End -->
+    
+    {% endfor %}
+    
+
+    <!-- Map Start -->
+<div class="container-xxl pt-5 px-0 wow fadeInUp mt-5" data-wow-delay="0.1s">
+    <div class="container-xxl pt-5 px-0">
+        <div class="bg-dark">
+            <iframe
+            src="{{detail_instance.googlemap}}"
+            frameborder="0" style="width: 100%; height: 450px; border:0;" allowfullscreen="" aria-hidden="false"
+            tabindex="0"></iframe>
+        </div>
+    </div>
+</div>
+<!-- Map End -->
+
+
+
+
+    
+
+
+    
+{% endblock content %}

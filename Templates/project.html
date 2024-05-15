@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="51">
+    
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Navbar Start -->
+    <nav class="navbar cards navbar-expand-lg bg-white navbar-light fixed-top shadow py-lg-0 px-4 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
+        <a href="index.html" class="navbar-brand d-block d-lg-none">
+            <h2 class="text-primary fw-bold m-0">Fern Aragon</h2>
+        </a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between py-4 py-lg-0" id="navbarCollapse">
+            <div class="navbar-nav d-none d-sm-block py-0">
+                <a href="#home" class="nav-item nav-link active"><img src="{% static 'img/ARlogo1.png' %}" width="100px" height="30px" alt="" ></a>
+            </div>
+            <div class="navbar-nav  py-0">
+                <a href="{% url 'home' %}" class="nav-item nav-link active">Home</a>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+
+
+    <!-- Header Start -->
+    
+    <div class="container-fluid bg-primary py-5 mb-5 page-header">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="display-3 text-white animated flash">My Projects</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a class="text-white" href="{% url 'home' %}">Home</a></li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">Projects</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+
+     <!-- Project Start -->
+     <div class="container-fluid my-5 py-6" id="service">
+        <div class="container">
+            <div class="row g-5 mb-5 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="col-lg-6">
+                    <h1 class="display-5 mb-0">Projects</h1>
+                </div>
+                <div class="col-lg-6 text-lg-end">
+                    <a class="btn btn-primary py-3 px-5" href="{% url 'home' %}">Back to home</a>
+                </div>
+            </div>
+            <div class="row g-4">
+                {% if pro %}
+                {% for project in pro %}
+                    <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="project-item  d-flex flex-column flex-sm-row bg-white rounded h-100 p-4 p-lg-5" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;">
+                            <div class="row">
+                                <div class="col-2 bg-project-icon"></div>
+                                <div class="col-10">
+                                    <h4 class="mb-3">{{ project.title }}</h4>
+                                    <span>{{ project.description | truncatechars:88}}</span>
+                                    <br>
+                                    <a data-bs-toggle="modal" data-bs-target="#staticBackdrop{{ forloop.counter }}" class="btn btn-outline-primary">View Project</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-dark" role="alert">
+                    The list of projects is filtered to this page. Check it <a href="{% url 'project' %}">here</a>.
+                </div>
+            {% endif %}
+            
+            </div>
+        </div>
+    </div>
+    <!-- Service End -->
+
+
+   
+    {% for detail in pro %}
+    
+    <!-- Projects Modal Start -->
+    <div class="modal fade" id="staticBackdrop{{ forloop.counter }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h3>{{detail.title}} </h3>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-sm-6">
+                    <img src="{{detail.project_banner.url}}" class="img-fluid" alt="" srcset="">
+                    <a class="btn btn-outline-primary mt-3" href="{{detail.project_banner.url}}" data-lightbox="portfolio"> Zoom image <i class="fa fa-eye"></i></a>
+                </div>
+                <div class="col-sm-6">
+                    <p>{{detail.description}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</button>
+              
+              {% if detail.link == 'none' %}
+              <button type="button" class="btn btn-outline-primary">No link provided</button>
+                {% else %}
+                <a href="{{detail.link}}" target="_blank" class="btn btn-outline-danger">Visit project</a>
+              {% endif %}
+                
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Projects Modal End -->
+    
+    {% endfor %}
+
+    
+
+
+    
+
+
+    
+{% endblock content %}

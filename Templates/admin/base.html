@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>{{detail_instance.firstname}}'s Portfolio</title>
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/logo_white.png' %}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/logo_white.png' %}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/logo_white.png' %}">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{% static 'admin/vendors/styles/core.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'admin/vendors/styles/icon-font.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'admin/src/plugins/datatables/css/dataTables.bootstrap4.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'admin/src/plugins/datatables/css/responsive.bootstrap4.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'admin/vendors/styles/style.css' %}">
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<link rel="stylesheet" href="https://cdn.datatables.net/2.0.1/css/dataTables.dataTables.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script src="https://cdn.datatables.net/2.0.1/js/dataTables.js"></script>
+	<link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+	
+
+</head>
+<body>
+	<script>
+		{% for m in messages  %}
+		{% if 'success' in m.tags %}
+		Swal.fire({
+		  position: 'center',
+		  icon: 'success',
+		  title: '{{m}}',
+		  showConfirmButton: false,
+		  timer: 1500
+		})
+		{% endif %}
+		{% endfor %}
+		</script>
+		<script>
+		  {% for m in messages  %}
+		  {% if 'error' in m.tags %}
+		  Swal.fire({
+			position: 'center',
+			icon: 'error',
+			title: '{{m}}',
+			showConfirmButton: false,
+			timer: 1500
+		  })
+		  {% endif %}
+		  {% endfor %}
+		  </script>
+	<!--<div class="pre-loader">
+		<div class="pre-loader-box">
+			<div class="loader-logo"><img src="vendors/images/smartfusion.png" width="250" height="auto"></div>
+			<div class='loader-progress' id="progress_div">
+				<div class='bar' id='bar1'></div>
+			</div>
+			<div class='percent' id='percent1'>0%</div>
+			<div class="loading-text">
+				Loading...
+			</div>
+		</div>
+	</div>-->
+
+	{% include 'admin/header.html' %}
+	{% include 'admin/sidebar.html' %}
+	{% block content %}
+    
+    {% endblock content %}
+    <!-- js -->
+	<script>
+		new DataTable('#example', {
+			language: {
+				pageLength: "Show _MENU_ articles per page"
+			}
+		});
+
+		$('#summernote').summernote({
+			placeholder: "what's on your mind? ",
+			tabsize: 2,
+			height: 120,
+			toolbar: [
+			  ['style', ['style']],
+			  ['font', ['bold', 'underline', 'clear']],
+			  ['color', ['color']],
+			  ['para', ['ul', 'ol', 'paragraph']],
+			  ['table', ['table']],
+			  ['insert', ['link', 'picture', 'video']],
+			  ['view', ['fullscreen', 'codeview', 'help']]
+			]
+		  });
+	</script>
+	<script src="{% static 'admin/vendors/scripts/core.js' %}"></script>
+	<script src="{% static 'admin/vendors/scripts/script.min.js' %}"></script>
+	<script src="{% static 'admin/vendors/scripts/process.js' %}"></script>
+	<script src="{% static 'admin/vendors/scripts/layout-settings.js' %}"></script>
+	<script src="{% static 'admin/src/plugins/apexcharts/apexcharts.min.js' %}"></script>
+	<script src="{% static 'admin/src/plugins/datatables/js/jquery.dataTables.min.js' %}"></script>
+	<script src="{% static 'admin/src/plugins/datatables/js/dataTables.bootstrap4.min.js' %}"></script>
+	<script src="{% static 'admin/src/plugins/datatables/js/dataTables.responsive.min.js' %}"></script>
+	<script src="{% static 'admin/src/plugins/datatables/js/responsive.bootstrap4.min.js' %}"></script>
+	<script src="{% static 'admin/vendors/scripts/dashboard.js' %}"></script>
+	<script src="{% static 'admin/vendors/scripts/apexcharts-setting.js' %}"></script>
+</body>
+</html>

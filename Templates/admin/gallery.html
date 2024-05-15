@@ -1,0 +1,54 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block content %}
+
+	<div class="mobile-menu-overlay"></div>
+
+	<div class="main-container">
+		<div class="pd-ltr-20 xs-pd-20-10">
+			<div class="min-height-200px">
+				<div class="page-header">
+					<div class="row">
+						<div class="col-md-12 col-sm-12">
+							<div class="title">
+								<h4>Portfolio gallery</h4>
+							</div>
+							<nav aria-label="breadcrumb" role="navigation">
+								<ol class="breadcrumb">
+									<li class="breadcrumb-item"><a href="{% url 'home_admin' %}">Home</a></li>
+									<li class="breadcrumb-item"><a href="{% url 'Gallery_pannel' %}">Gallery pannel</a></li>
+									<li class="breadcrumb-item active" aria-current="page">Gallery</li>
+								</ol>
+							</nav>
+						</div>
+					</div>
+				</div>
+				<div class="gallery-wrap">
+					<ul class="row">
+						{% for gallery in gal %}
+						<li class="col-lg-4 col-md-6 col-sm-12">
+							<div class="da-card box-shadow">
+								<div class="da-card-photo">
+									<img src="{{gallery.photo.url}}" alt="">
+									<div class="da-overlay">
+										<div class="da-social">
+										<h5 class="mb-10 color-white pd-20">{{gallery.title}}</h5>
+											<ul class="clearfix">
+												<li><a href="{{gallery.photo.url}}" data-fancybox="images"><i class="fa fa-picture-o"></i></a></li>
+												<li><a href="#"><i class="fa fa-link"></i></a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+			<div class="footer-wrap pd-20 mb-20 card-box">
+				Personal Portfolio By <a href="{% url 'home_admin' %}" >{{detail_instance.firstname}} {{detail_instance.lastname}}</a>
+			</div>
+		</div>
+	</div>
+	{% endblock content %}

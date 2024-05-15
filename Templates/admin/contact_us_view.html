@@ -1,0 +1,66 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block content %}
+
+	<div class="mobile-menu-overlay"></div>
+
+	<div class="main-container">
+		<div class="pd-ltr-20 xs-pd-20-10">
+			<div class="min-height-200px">
+				<div class="page-header">
+					<div class="row">
+						<div class="col-md-6 col-sm-12">
+							<div class="title">
+								<h2>Contact Inquiries</h2>
+							</div>
+							<nav aria-label="breadcrumb" role="navigation">
+								<ol class="breadcrumb">
+									<li class="breadcrumb-item"><a href="{% url 'home_admin' %}">Home</a></li>
+									<li class="breadcrumb-item active" aria-current="page"><a href="{% url 'contact_us' %}">Contact Inquiries</a></li>
+                                    <li class="breadcrumb-item"><a href="{% url 'home_admin' %}">{{contact_instance.email}}</a></li>
+								</ol>
+							</nav>
+						</div>
+						
+					</div>
+				</div>
+				<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
+                    <div class="row">
+                        <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label for="">Sender Name</label>
+                                        <input type="text" name="" class="form-control" id="" value="{{contact_instance.name}}" >
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="">Email</label>
+                                        <input type="text" name="" class="form-control" id="" value="{{contact_instance.email}}" >
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="">Date Sent</label>
+                                        <input type="text" name="" class="form-control" id="" value="{{contact_instance.date_sent}}" >
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="">Subject</label>
+                                        <input type="text" name="" class="form-control" id="" value="{{contact_instance.subject}}" >
+                                    </div>
+                                    
+                                </div>
+                        </div>
+                        <div class="col-sm-6">
+                     
+                                <label for="">Message</label>
+                                <textarea name="" id="" cols="30" rows="1" class="form-control" >{{contact_instance.message}}</textarea>
+
+                           
+                        </div>
+                 
+                    </div>
+				</div>
+			</div>
+			<div class="footer-wrap pd-20 mb-20 card-box">
+				Personal Portfolio By <a href="{% url 'home_admin' %}" >{{detail_instance.firstname}} {{detail_instance.lastname}}</a>
+			</div>
+		</div>
+	</div>
+	{% endblock content %}
